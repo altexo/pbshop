@@ -13194,11 +13194,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/altexo94/Documents/dev/ing-web/pbshop_web/pbshop_web.csproj",
+      "projectUniqueName": "/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/pbshop_web.csproj",
       "projectName": "pbshop_web",
-      "projectPath": "/Users/altexo94/Documents/dev/ing-web/pbshop_web/pbshop_web.csproj",
+      "projectPath": "/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/pbshop_web.csproj",
       "packagesPath": "/Users/altexo94/.nuget/packages/",
-      "outputPath": "/Users/altexo94/Documents/dev/ing-web/pbshop_web/obj/",
+      "outputPath": "/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

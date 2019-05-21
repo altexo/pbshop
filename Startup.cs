@@ -16,17 +16,28 @@ namespace pbshop_web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
+        public IConfigurationRoot Configuration {  
+            get;  
+            set;  
+        }  
+        public static string ConnectionString {  
+            get;  
+            private set;  
+        }  
+        public Startup(IHostingEnvironment env) {  
+            Configuration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("appSettings.json").Build();  
         }
+        // public Startup(IConfiguration configuration)
+        // {
+        //     Configuration = configuration;
+        // }
 
-        public IConfiguration Configuration { get; }
+        // public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connStr = Configuration.GetValue<string>("DefaultConnection");
+            // var connectionStr = Configuration.GetValue<string>("DefaultConnection");
             services.AddTransient<IClientsRepository, ClientsRepository>();
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -35,7 +46,9 @@ namespace pbshop_web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             
-            services.AddTransient<DBConnection>(_ => new DBConnection(Configuration["ConnectionStrings:DefaultConnection"]));
+            // services.AddTransient<DBConnection>(_ => new DBConnection(Configuration["ConnectionStrings:DefaultConnection"]));
+            ConnectionString = Configuration["ConnectionStrings:DefaultConnectionProduction"];
+            //ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

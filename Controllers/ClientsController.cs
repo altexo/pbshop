@@ -21,7 +21,6 @@ namespace pbshop_web.Controllers
             clients = clientsRepo;
         }
 
-        // GET: api/Clients
         [HttpGet]
         public JsonResult Get()
         {

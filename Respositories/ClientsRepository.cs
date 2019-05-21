@@ -10,11 +10,11 @@ namespace pbshop_web.Respositories
 {
     public class ClientsRepository : IClientsRepository
     {
-       // string connStr;
-        // public ClientsRepository(string connectionStr){
-        //     connStr = connectionStr;
-        // }
-        string connStr = "server=localhost;port=3306;database=mydb;user=root;password=";
+        public static string GetConnectionString(){
+            return Startup.ConnectionString;
+        }
+        // string connStr = "server=localhost;port=3306;database=mydb;user=root;password=";
+       // string connStr = "server=k3xio06abqa902qt.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;port=3306;database=aeacqkuf3fr8uq8t;user=ss7z1t6oys987shb;password=nw473umt2r9yu41d";
         public async Task<bool> Actualizar(ClientsEntity actualizado)
         {
             var cmd = new MySqlCommand("UPDATE clients SET name = @name, lastName = @lastName, phone = @phone, email = @email WHERE id = @id");
@@ -24,13 +24,13 @@ namespace pbshop_web.Respositories
             cmd.Parameters.AddWithValue("@phone", actualizado.phone);
             cmd.Parameters.AddWithValue("@email", actualizado.email);
             
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(GetConnectionString()))
             {
                 try
                 {
                     cmd.Connection = conn;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
+                    await cmd.Connection.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
                     return true;
                 }
                 catch (Exception ex)
@@ -38,7 +38,7 @@ namespace pbshop_web.Respositories
                     
                     throw ex;
                 }
-                return false;
+                // return false;
             }
         }
 
@@ -46,13 +46,13 @@ namespace pbshop_web.Respositories
         {
             var cmd = new MySqlCommand("DELETE FROM clients WHERE id = @id ");
             cmd.Parameters.AddWithValue("@id", id);
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(GetConnectionString()))
             {
                 try
                 {
                     cmd.Connection = conn;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
+                    await cmd.Connection.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
                     return true;
                 }
                 catch (Exception ex)
@@ -60,7 +60,7 @@ namespace pbshop_web.Respositories
                     
                     throw ex;
                 }
-                return false;
+                // return false;
             }
         }
 
@@ -72,13 +72,13 @@ namespace pbshop_web.Respositories
             cmd.Parameters.AddWithValue("@phone", nuevo.phone);
             cmd.Parameters.AddWithValue("@email", nuevo.email);
             
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(GetConnectionString()))
             {
                 try
                 {
                     cmd.Connection = conn;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
+                    await cmd.Connection.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
                     return true;
                 }
                 catch (Exception ex)
@@ -87,7 +87,7 @@ namespace pbshop_web.Respositories
                     throw ex;
                 }
             }
-            return false;
+            // return false;
 
         }
 
@@ -96,7 +96,7 @@ namespace pbshop_web.Respositories
             var lista = new List<ClientsEntity>();
             var cmd = new MySqlCommand("SELECT id, name, lastName, phone, email FROM clients WHERE id = @id");
             cmd.Parameters.AddWithValue("@id", id);
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(GetConnectionString()))
             {
                 try
                 {
@@ -124,7 +124,7 @@ namespace pbshop_web.Respositories
         {
             var lista = new List<ClientsEntity>();
             var cmd = new MySqlCommand("SELECT id, name, lastName, phone, email FROM clients");
-            using (var conn = new MySqlConnection(connStr))
+            using (var conn = new MySqlConnection(GetConnectionString()))
             {
                 try
                 {
