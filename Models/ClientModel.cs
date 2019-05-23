@@ -17,4 +17,6 @@ namespace pbshop_web.Models
         public string phone {get;set;}
         public string email {get;set;}
     }
+
+
 }

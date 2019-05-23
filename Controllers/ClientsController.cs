@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using pbshop_web.Models;
 using pbshop_web.Respositories;
-using Utf8Json;
+
 
 namespace pbshop_web.Controllers
 {
@@ -48,9 +48,14 @@ namespace pbshop_web.Controllers
         //  POST: api/clients/create
          [HttpPost("create")]
         public async Task<IActionResult> Post(string id,[FromBody]  ClientsEntity nueva ) {
+            var validate = validateEmail(nueva.email);
+            if (validate == false)
+            {
+                return Ok(new {error = true ,msj = "Error: Debe ingresar un correo valido" });
+            }
             var resultado = await clients.Guardar(nuevo: nueva);
             if(resultado){
-                return Ok(nueva);
+                return Ok(new {error = false, data = nueva});
             }else {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
@@ -83,6 +88,25 @@ namespace pbshop_web.Controllers
             }else{
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
+        }
+        public bool validateEmail(string email){
+            try {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch {
+                return false;
+            }
+        }
+        
+
+        // public class validationResponse
+        // {
+            
+        // }
+
+        public static bool verifyClient(string email){
+            return true;
         }
     }
 }

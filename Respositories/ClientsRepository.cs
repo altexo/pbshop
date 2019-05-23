@@ -101,7 +101,7 @@ namespace pbshop_web.Respositories
                 try
                 {
                     cmd.Connection = conn;
-                    cmd.Connection.Open();
+                    cmd.Connection.OpenAsync();
                     using(var reader = cmd.ExecuteReader()){
                         if (reader.Read())
                         {

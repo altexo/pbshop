@@ -55,6 +55,8 @@ namespace pbshop_web.Controllers
             }
         }
 
+        
+
         // GET: Employees/Edit/5
         public ActionResult Edit(int id)
         {
@@ -119,5 +121,8 @@ namespace pbshop_web.Controllers
                 return View();
             }
         }
+
+
+        //public void verifyEmployee
     }
 }

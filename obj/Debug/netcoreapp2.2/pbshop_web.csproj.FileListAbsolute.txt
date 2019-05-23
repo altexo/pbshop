@@ -70,3 +70,6 @@
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Debug/netcoreapp2.2/Razor/Views/Tools/Create.g.cshtml.cs
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Debug/netcoreapp2.2/Razor/Views/Tools/Edit.g.cshtml.cs
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Debug/netcoreapp2.2/Razor/Views/Tools/Delete.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/bin/Debug/netcoreapp2.2/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/bin/Debug/netcoreapp2.2/xunit.runner.reporters.netcoreapp10.dll
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/bin/Debug/netcoreapp2.2/xunit.runner.utility.netcoreapp10.dll

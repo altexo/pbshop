@@ -47,8 +47,8 @@ namespace pbshop_web
             });
             
             // services.AddTransient<DBConnection>(_ => new DBConnection(Configuration["ConnectionStrings:DefaultConnection"]));
-            ConnectionString = Configuration["ConnectionStrings:DefaultConnectionProduction"];
-            //ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
+           // ConnectionString = Configuration["ConnectionStrings:DefaultConnectionProduction"];
+            ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
