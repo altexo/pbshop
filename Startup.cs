@@ -39,6 +39,7 @@ namespace pbshop_web
         {
             // var connectionStr = Configuration.GetValue<string>("DefaultConnection");
             services.AddTransient<IClientsRepository, ClientsRepository>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

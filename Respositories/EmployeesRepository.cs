@@ -118,7 +118,40 @@ namespace pbshop_web.Respositories
             }
         }
 
-       
+        internal bool verifyPhone(string phone)
+        {
+            string registerPhone;
+            var cmd = new MySqlCommand("SELECT phone FROM employees where phone = @phone");
+            cmd.Parameters.AddWithValue("@phone", phone);
+            using (var conn = new MySqlConnection("server=k3xio06abqa902qt.cbetxkdyhwsb.us-east-1.rds.amazonaws.com;port=3306;database=aeacqkuf3fr8uq8t;user=ss7z1t6oys987shb;password=nw473umt2r9yu41d"))
+            {
+                try
+                {
+                    cmd.Connection = conn;
+                    cmd.Connection.Open();
+                    // cmd.ExecuteNonQuery();
+                    using(var reader = cmd.ExecuteReader()){
+                    if (reader.Read())
+                        {
+                            registerPhone = (string)reader["phone"];
+                            if (registerPhone == phone)
+                                {
+                                    return false;
+                                }
+                        }
+                    }
+                  
+                    return true;
+                    //return true;
+                }
+                catch (System.Exception)
+                {
+                    
+                    throw;
+                }
+            }
+        }
+
 
         internal void Delete(int id)
         {

@@ -79,6 +79,8 @@ namespace pbshop_web.Respositories
                     cmd.Connection = conn;
                     await cmd.Connection.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
+                    
+
                     return true;
                 }
                 catch (Exception ex)

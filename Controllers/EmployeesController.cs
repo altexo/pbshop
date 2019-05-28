@@ -46,6 +46,7 @@ namespace pbshop_web.Controllers
             try
             {
                 // TODO: Add insert logic here
+                //return verifyEmployeeUniquePhone(employee.phone);
                 employees.Crear(employee);
                 return RedirectToAction(nameof(Index));
             }
@@ -123,6 +124,17 @@ namespace pbshop_web.Controllers
         }
 
 
-        //public void verifyEmployee
+        public bool verifyEmployeeUniquePhone(string phone){
+            try
+            {
+                var emp = employees.verifyPhone(phone);
+                return emp;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
     }
 }

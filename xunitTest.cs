@@ -7,13 +7,27 @@ using Xunit.Abstractions;
 
 public class xunitTest{
 
-    private readonly ITestOutputHelper _testOutputHelper;
+    // private readonly ITestOutputHelper _testOutputHelper;
 
     [Theory]
     [InlineData("alecs")]
-    [InlineData("alecs@gmail.com")]
+    [InlineData("@gmail.com")]
     [InlineData("alecs@...")]
-    public void validateClientEmail(string email)
+    public void ExpectedFalseValidationClientEmail(string email)
+    {
+        //Arrange
+        var clients = new ClientController();
+        //Act
+        var validate = clients.validateEmail(email);
+        //Assert
+        Assert.False(validate);
+    }
+
+    [Theory]
+    [InlineData("mas@hotmail.com")]
+    [InlineData("alecs@gmail.com")]
+    [InlineData("jejeje@live.com.mx")]
+    public void ExpectedTrueValidationClientEmail(string email)
     {
         //Arrange
         var clients = new ClientController();
@@ -22,26 +36,40 @@ public class xunitTest{
         //Assert
         Assert.True(validate);
     }
-    //Prueba que verifique email
-    [Fact]
-    public void MustCreateAnEmployee(){
+
+
+
+    //Prueba que verifique employee phone
+    [Theory]
+    [InlineData("5526182831")]
+    [InlineData("6671342617")]
+    public void ExpectedNotUniqueEmployeePhoneNumber(string phone){
         //Arrange
-        var emp = new CreateEmployeeModel();
-        emp.name = "Rene";
-        emp.lastName = "Perez";
-        emp.phone = "6673292929";
         var employee = new EmployeesController();
-        
+
         //Act
-        var result = employee.Create(emp);
+        var result = employee.verifyEmployeeUniquePhone(phone);
 
+        //Assert
+        Assert.False(result);
+        
+    }
+    [Theory]
+    [InlineData("5561161616")]
+    [InlineData("6674129510")]
+    public void ExpectedUniqueEmployeePhoneNumber(string phone){
+        //Arrange
+        var employee = new EmployeesController();
 
-        Assert.NotNull(result);
+        //Act
+        var result = employee.verifyEmployeeUniquePhone(phone);
 
+        //Assert
+        Assert.True(result);
+        //Assert.Same(phone, result);
     }
 
-    // public void debeCrearUnNuevoCliente(){
 
-    // }
+
 
 }

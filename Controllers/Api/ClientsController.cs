@@ -100,10 +100,6 @@ namespace pbshop_web.Controllers
         }
         
 
-        // public class validationResponse
-        // {
-            
-        // }
 
         public static bool verifyClient(string email){
             return true;
