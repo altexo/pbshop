@@ -35,6 +35,12 @@ namespace pbshop_web.Controllers
             var model = workshops.LeerPorId(id);
             return Ok(model);
         }
+        [HttpGet("state/{id}")]
+        public async Task<IActionResult> GetByState(int id)
+        {
+            var workshopsByState = workshops.GetWorkshopsByState(id);
+            return Ok(workshopsByState);
+        }
 
         // POST: api/workshops/create
         [HttpPost("create")]

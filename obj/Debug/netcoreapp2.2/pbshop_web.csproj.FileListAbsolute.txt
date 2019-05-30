@@ -73,3 +73,9 @@
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/bin/Debug/netcoreapp2.2/xunit.runner.visualstudio.dotnetcore.testadapter.dll
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/bin/Debug/netcoreapp2.2/xunit.runner.reporters.netcoreapp10.dll
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/bin/Debug/netcoreapp2.2/xunit.runner.utility.netcoreapp10.dll
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/bin/Debug/netcoreapp2.2/appsettings.json
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Debug/netcoreapp2.2/Razor/Areas/Identity/Pages/_ValidationScriptsPartial.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Debug/netcoreapp2.2/Razor/Areas/Identity/Pages/_ViewStart.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Debug/netcoreapp2.2/Razor/Views/Shared/_LoginPartial.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Debug/netcoreapp2.2/Razor/Views/WorkShopRecordsWeb/Index.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Debug/netcoreapp2.2/Razor/Views/WorkShopRecordsWeb/Details.g.cshtml.cs

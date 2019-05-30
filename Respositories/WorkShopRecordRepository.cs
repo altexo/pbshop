@@ -15,7 +15,7 @@ namespace pbshop_web.Respositories
         internal List<WorkshopRecordModel> LeerTodos()
         {
             var lista = new List<WorkshopRecordModel>();
-            var cmd = new MySqlCommand("SELECT wr.id, wr.clients_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_states_id = ws.id INNER JOIN clients c on wr.clients_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id");
+            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year, v.serial, DATE(v.created_at) as created_at FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id");
            //var cmd = new MySqlCommand("SELECT workshop_records.id as we_id, workshop_record_states.id as ws_id, workshop_record_states.state, workshop_records.workshop_record_sate_id, workshop_records.clients_id FROM workshop_records INNER JOIN workshop_record_states on workshop_records.workshop_record_states_id = workshop_record_states.id");
             using (var conn = new MySqlConnection(GetConnectionString()))
             {
@@ -40,12 +40,68 @@ namespace pbshop_web.Respositories
             return lista;
         }
 
+        // internal WorkShopRecordAndTasksModel DetailedWorkshop(int id)
+        // {
+        //     var workshopWithTasks = new WorkShopRecordAndTasksModel();
+        //     var workshop = new WorkshopRecordModel();
+        //     var tasks = new List<TaskModel>();
+        //     var cmdWorkShop = new MySqlCommand("SELECT wr.id, wr.client_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE wr.id = @id");
+        //     cmdWorkShop.Parameters.AddWithValue("@id", id);
+           
+        //     using (var conn = new MySqlConnection(GetConnectionString()))
+        //     {
+        //         try
+        //         {
+        //             cmdWorkShop.Connection = conn;
+        //             cmdWorkShop.Connection.Open();
+        //             using(var reader = cmdWorkShop.ExecuteReader()){
+        //                 if (reader.Read())
+        //                 {
+        //                     workshop = ParseWorkShopRecords(reader);
+        //                 }
+                        
+        //             }
+        //         }
+        //         catch (Exception ex)
+        //         {
+                    
+        //             throw ex;
+        //         }
+        //     }
+        //     return null;
+        // }
+
+      
+
+        internal List<WorkshopRecordModel> GetWorkshopsByState(int id)
+        {
+            var lista = new List<WorkshopRecordModel>();
+            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year, v.serial FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE ws.id = @id");
+            cmd.Parameters.AddWithValue("@id", id);
+            using (var conn = new MySqlConnection(GetConnectionString()))
+            {
+                try
+                {
+                    cmd.Connection = conn;
+                    cmd.Connection.Open();
+                    using(var reader = cmd.ExecuteReader()){
+                        while (reader.Read())
+                        {
+                            lista.Add(ParseWorkShopRecords(reader));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw ex;
+                }
+            }
+            return lista;
+        }
+
         internal async Task<bool> CreateNew(CreateWorkShopModel workshop)
         {
-           
-            // var vehicleCmd = new MySqlCommand("INSERT INTO vehicles (serial, model, brand, year) VALUES (@serial , @model, @brand, @year)");
-            // var workshopRecordCmd = new MySqlCommand("INSERT INTO workshop_records (client_id, workshop_record_state_id, vehicle_id) VALUES (@client_id, @workshop_record_state_id, @vehicle_id)");
-           // long last_inserted = cmd.LastInsertedId;
            
             using (var conn = new MySqlConnection(GetConnectionString()))
             {
@@ -61,7 +117,7 @@ namespace pbshop_web.Respositories
 
                 try
                 {
-                    myCommand.CommandText = "INSERT INTO vehicles (serial, model, brand, year) VALUES (@serial , @model, @brand, @year)";
+                    myCommand.CommandText = "INSERT INTO vehicles (serial, model, brand, year, created_at) VALUES (@serial , @model, @brand, @year, NOW())";
                     myCommand.Parameters.AddWithValue("@serial", workshop.vehicle.serial);
                     myCommand.Parameters.AddWithValue("@model", workshop.vehicle.model);
                     myCommand.Parameters.AddWithValue("@brand", workshop.vehicle.brand);
@@ -91,8 +147,6 @@ namespace pbshop_web.Respositories
                      
                     }
                     
-                    // myCommand.CommandText = "insert into Test (id, desc) VALUES (101, 'Description')";
-                    // myCommand.ExecuteNonQuery();
                     myTrans.Commit();
                     Console.WriteLine("Both records are written to database.");
                     return true;
@@ -133,7 +187,7 @@ namespace pbshop_web.Respositories
         internal WorkshopRecordModel LeerPorId(int id)
         {
             var lista = new WorkshopRecordModel();
-            var cmd = new MySqlCommand("SELECT wr.id, wr.clients_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_states_id = ws.id INNER JOIN clients c on wr.clients_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE wr.id = @id");
+            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.serial,v.model, v.year, v.created_at FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE wr.id = @id");
             cmd.Parameters.AddWithValue("@id", id);
            
             using (var conn = new MySqlConnection(GetConnectionString()))
@@ -158,7 +212,7 @@ namespace pbshop_web.Respositories
             }
             return null;
         }
-
+  
         private WorkshopRecordModel ParseWorkShopRecords(MySqlDataReader reader)
         {
             try
@@ -169,7 +223,7 @@ namespace pbshop_web.Respositories
                 var v = new VehicleModel();
 
                 w.id = (int)(long)reader["id"];
-                w.client_id = (int)(long)reader["clients_id"];
+                w.client_id = (int)(long)reader["client_id"];
                 
                 c.email = (string)reader["email"];
                 c.name = (string)reader["name"];
@@ -181,6 +235,8 @@ namespace pbshop_web.Respositories
                 v.model = (string)reader["model"];
                 v.brand = (string)reader["brand"];
                 v.year = (int)reader["year"];
+                v.serial = (string)reader["serial"];
+                v.created_at = reader["created_at"].ToString();
                 w.vehicle = v;
                 w.client = c;
                 w.workshop_record_sate = state;

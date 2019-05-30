@@ -4,13 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using pbshop_web.Respositories;
 
 namespace pbshop_web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/tasks")]
     [ApiController]
     public class TasksController : Controller
     {
+        private TasksRepository tasks;
+
+        public TasksController(){
+            tasks = new TasksRepository();
+        }
         // GET: api/Tasks
         [HttpGet]
         public IEnumerable<string> GetTasks()
@@ -19,10 +25,11 @@ namespace pbshop_web.Controllers
         }
 
         // GET: api/Tasks/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("workshop/{id}")]
+        public JsonResult Get(int id)
         {
-            return "value";
+            var tasksList = tasks.GetTasksById(id);
+            return Json(tasksList);
         }
 
         [HttpGet("create/content")]

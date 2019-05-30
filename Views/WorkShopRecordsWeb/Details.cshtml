@@ -1,0 +1,100 @@
+@model pbshop_web.Models.WorkshopRecordModel
+
+@{
+    ViewData["Title"] = "Details";
+    int workshop_id = @Model.id;
+}
+
+<h2 class="pbshop-secundary-text-color">  <a class="btn btn-default align-middle" asp-action="Index"><div data-icon="ei-arrow-left" data-size="m"></div></a>Detalles de Folio: @Html.DisplayFor(model => model.id)</h2>
+
+    <div>
+        <h4 class="text-secondary">Estado General: @Html.DisplayFor(model => model.workshop_record_sate.state) </h4>
+        <hr />
+        <div class="col-md-12 row card-columns">
+           <div class="col-md-6 card">
+                <div class="card-body">
+                    <label class="font-weight-bold pbshop-secundary-text-color">Fecha de entrada: </label> @Html.DisplayFor(model => model.vehicle.created_at)<br>
+                    <label class="font-weight-bold pbshop-secundary-text-color">No. de Serie: </label> @Html.DisplayFor(model => model.vehicle.serial)<br>
+                    <label class="font-weight-bold pbshop-secundary-text-color" >Modelo:</label> @Html.DisplayFor(model=> model.vehicle.model) @Html.DisplayFor(model=> model.vehicle.year)<br>
+                    <label class="font-weight-bold pbshop-secundary-text-color">Marca: </label> @Html.DisplayFor(model => model.vehicle.brand) <br>
+
+                </div>
+            </div>
+            <div class="col-md-6 card">
+                <div class="card-body ">
+                    <h5 class="card-title pbshop-secundary-text-color">Detalle especial de la restauración:</h5>
+                    <h6 class="text-secondary">Ninguno</h6>
+                </div>
+            </div>
+            <div class="col-md-6 card">
+                <div class="card-body" >
+                    <h5 class="card-title pbshop-secundary-text-color">Actividades:</h5>
+                    <div id="loading-activities" class="col-md-12">
+                         <div class="justify-content-md-center"  data-icon="ei-spinner-3" data-size="l"></div>
+                    </div>
+                    <table id="activities" class="table table-hover hidden">
+                        <thead>
+                            <tr>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Estado</th>
+                            <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="activities-list">
+                           
+                        </tbody>
+                        </table>
+                </div>
+            </div>
+    </div>
+    <div>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | -->
+   
+</div>
+@section Scripts {
+     <script type="text/javascript">
+        $(document).ready(function(){
+            var workshop_id = @workshop_id;
+            $("#loading-activities").addClass("hidden");
+            $("#activities").removeClass("hidden");
+            
+            $.ajax({ 
+                type:'GET', 
+                url: "https://localhost:5001/api/tasks/workshop/"+workshop_id,
+                success:function(response){
+                    console.log(response);
+                    $.each(response, function(index, value){
+                        var tasks = "<tr><td>"+value.description+"</td>"+
+                                    "<td>"+value.task_state+"</td>"+
+                                    "<td><a data-toggle='modal' data-target='#exampleModalCenter'><input type='hidden' value="+value.id+"><div data-icon='ei-gear' data-size='s'></div></a></td></tr>";
+                        $("#activities-list").append(tasks);
+                    });
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+        })
+     </script>
+}

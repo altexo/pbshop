@@ -7,5 +7,6 @@ namespace pbshop_web.Models
         public string model {set;get;}
         public string brand {set;get;}
         public int year {set;get;}
+        public string created_at {set;get;}
     }
 }

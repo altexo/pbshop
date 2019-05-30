@@ -1,0 +1,55 @@
+@model IEnumerable<pbshop_web.Models.WorkshopRecordModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Restauraciones</h1>
+
+<p>
+    <!-- <a asp-action="Create">Create New</a> -->
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+               Cliente
+            </th>
+            <th>
+                Vehículo
+            </th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.client.name)
+                @Html.DisplayFor(modelItem => item.client.lastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vehicle.model)
+                @Html.DisplayFor(modelItem => item.vehicle.year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.workshop_record_sate.state)
+            </td>
+            <td>
+                
+                @Html.ActionLink("Detalles", "Details", new {  id=item.id  }, new {@class = "btn btn-primary sm"}) 
+               
+              
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>

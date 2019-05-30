@@ -25,7 +25,7 @@ namespace pbshop_web
             private set;  
         }  
         public Startup(IHostingEnvironment env) {  
-            Configuration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("appSettings.json").Build();  
+            Configuration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("appsettings.json").Build();  
         }
         // public Startup(IConfiguration configuration)
         // {
@@ -37,6 +37,7 @@ namespace pbshop_web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             // var connectionStr = Configuration.GetValue<string>("DefaultConnection");
             services.AddTransient<IClientsRepository, ClientsRepository>();
 
@@ -48,9 +49,10 @@ namespace pbshop_web
             });
             
             // services.AddTransient<DBConnection>(_ => new DBConnection(Configuration["ConnectionStrings:DefaultConnection"]));
-           // ConnectionString = Configuration["ConnectionStrings:DefaultConnectionProduction"];
+           //ConnectionString = Configuration["ConnectionStrings:DefaultConnectionProduction"];
             ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,15 +75,13 @@ namespace pbshop_web
 
             app.UseMvc(routes =>
             {
+                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                // routes.MapRoute(
-                //     name: "default_route",
-                //     template: "{controller}/{action}/{id?}",
-                //     defaults: new { controller = "Clients", action = "Index" }
-                // );
+           
             });
+            
             //app.UseMvc();
         }
     }
