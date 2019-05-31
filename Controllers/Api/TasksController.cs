@@ -24,12 +24,18 @@ namespace pbshop_web.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/Tasks/5
+        // GET: api/Tasks/workshop/5
         [HttpGet("workshop/{id}")]
         public JsonResult Get(int id)
         {
             var tasksList = tasks.GetTasksById(id);
             return Json(tasksList);
+        }
+
+        [HttpGet("{id}")]
+        public JsonResult GetById(int id){
+            var task = tasks.GetTaskById(id);
+            return Json(task);
         }
 
         [HttpGet("create/content")]

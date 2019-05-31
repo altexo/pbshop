@@ -38,6 +38,38 @@ namespace pbshop_web.Respositories
             return lista;
         }
 
+        internal TaskModel GetTaskById(int id)
+        {
+            var cmd = new MySqlCommand("SELECT t.id, t.description, ts.state FROM tasks t INNER JOIN task_states ts on t.task_states_id = ts.id WHERE t.workshop_records_id = @id");
+            cmd.Parameters.AddWithValue("@id", id);
+            using (var conn = new MySqlConnection(GetConnectionString()))
+            {
+                try
+                {
+                    cmd.Connection = conn;
+                    cmd.Connection.Open();
+                    using(var reader = cmd.ExecuteReader()){
+                        if (reader.Read())
+                        {
+                            return ParseTask(reader);
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw ex;
+                }
+            }
+            return null;
+        }
+
+        private TaskModel ParseTask(MySqlDataReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
         private DescriptionTaskModel ParseTasks(MySqlDataReader reader)
         {
             var tasks = new DescriptionTaskModel();

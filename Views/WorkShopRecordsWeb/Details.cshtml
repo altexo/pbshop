@@ -5,7 +5,14 @@
     int workshop_id = @Model.id;
 }
 
-<h2 class="pbshop-secundary-text-color">  <a class="btn btn-default align-middle" asp-action="Index"><div data-icon="ei-arrow-left" data-size="m"></div></a>Detalles de Folio: @Html.DisplayFor(model => model.id)</h2>
+<h2 class="pbshop-secundary-text-color">  
+    <a class="btn btn-default align-middle" asp-action="Index">
+        <span style='font-size: 3em; color: Tomato;'>
+            <i class="fas fa-arrow-circle-left"></i>
+        </span>
+    </a>
+    Detalles de Folio: @Html.DisplayFor(model => model.id)
+</h2>
 
     <div>
         <h4 class="text-secondary">Estado General: @Html.DisplayFor(model => model.workshop_record_sate.state) </h4>
@@ -29,9 +36,12 @@
             <div class="col-md-6 card">
                 <div class="card-body" >
                     <h5 class="card-title pbshop-secundary-text-color">Actividades:</h5>
-                    <div id="loading-activities" class="col-md-12">
-                         <div class="justify-content-md-center"  data-icon="ei-spinner-3" data-size="l"></div>
+                    <div  class="d-flex mt-3 text-primary justify-content-center">
+                        <div id="loading-activities" class="mt-3 spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
+                 
                     <table id="activities" class="table table-hover hidden">
                         <thead>
                             <tr>
@@ -49,7 +59,7 @@
     </div>
     <div>
 
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="tasksModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
@@ -59,7 +69,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <!-- Loading -->
+                <div  class="d-flex mt-3 text-primary justify-content-center">
+                    <div id="loading-task" class="mt-3 spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <!-- End Loading -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -68,12 +84,13 @@
             </div>
         </div>
     </div>
-    
+
     <!-- @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | -->
    
 </div>
 @section Scripts {
      <script type="text/javascript">
+     //Se ejecuta al cargar al documento obteniendo las actividades a realizar 
         $(document).ready(function(){
             var workshop_id = @workshop_id;
             $("#loading-activities").addClass("hidden");
@@ -87,7 +104,7 @@
                     $.each(response, function(index, value){
                         var tasks = "<tr><td>"+value.description+"</td>"+
                                     "<td>"+value.task_state+"</td>"+
-                                    "<td><a data-toggle='modal' data-target='#exampleModalCenter'><input type='hidden' value="+value.id+"><div data-icon='ei-gear' data-size='s'></div></a></td></tr>";
+                                    "<td><a class='openm'><input type='hidden' value="+value.id+"><span style='font-size: 1.2em; color: Tomato;'><i class='fas fa-tools'></i></span></a></td></tr>";
                         $("#activities-list").append(tasks);
                     });
                 },
@@ -95,6 +112,13 @@
                     console.log(error);
                 }
             });
+        })
+
+        $("body").on("click",".openm",function(){
+            
+            var task_id = $(this).find('input').val();
+            $('#tasksModal').modal();
+            console.log(task_id);
         })
      </script>
 }
