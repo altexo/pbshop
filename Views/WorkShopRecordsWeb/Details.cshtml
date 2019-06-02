@@ -53,20 +53,20 @@
                         <tbody id="activities-list">
                            
                         </tbody>
-                        </table>
+                    </table>
                 </div>
             </div>
     </div>
     <div>
-
+    <!-- Modal -->
     <div class="modal fade" id="tasksModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-primary modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header pbshop-primary-color ">
+                <h5 class="modal-title text-white" id="exampleModalCenterTitle">Estados de actividad</h5>
+                <a type="button" class="close-function text-white" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-                </button>
+                </a>
             </div>
             <div class="modal-body">
                 <!-- Loading -->
@@ -76,15 +76,59 @@
                     </div>
                 </div>
                 <!-- End Loading -->
+                <table id="task" class="table table-hover hidden">
+                        <thead>
+                            <tr>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Asignado</th>
+                            <th scope="col">Herramienta</th>
+                            <th scope="col">Edo. de herramienta</th>
+                            <th scope="col">Estado</th>
+                           
+                            </tr>
+                        </thead>
+                        <tbody id="activities-list">
+                            <tr>
+                                <td>
+                                    <label id="description"></label>
+                                    <input type="hidden" id="task_id" value="">
+                                </td>
+                                <td>
+                                    <select id="employees" class="custom-select">
+                                        <option value="0">Sin asignar</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="tools" class="custom-select">
+                                        <option value="0">Sin asignar</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="tools_state" class="custom-select">
+                                        <option value="0">Sin asignar</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="task_state" class="custom-select">
+                                        
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <div  class="d-flex text-danger justify-content-center">
+                    <div id="task-state-loading" class="spinner-grow hidden" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary close-function" data-dismiss="modal">Cerrar</button>
             </div>
             </div>
         </div>
     </div>
-
+    <!-- End modal -->
     <!-- @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) | -->
    
 </div>
@@ -107,6 +151,7 @@
                                     "<td><a class='openm'><input type='hidden' value="+value.id+"><span style='font-size: 1.2em; color: Tomato;'><i class='fas fa-tools'></i></span></a></td></tr>";
                         $("#activities-list").append(tasks);
                     });
+                    
                 },
                 error:function(error){
                     console.log(error);
@@ -119,6 +164,115 @@
             var task_id = $(this).find('input').val();
             $('#tasksModal').modal();
             console.log(task_id);
+            $.ajax({
+                type:'GET',
+                url: "https://localhost:5001/api/tasks/"+task_id,
+                success:function(response){
+                    console.log(response)
+                    $("#loading-task").addClass('hidden');
+                    var content = response.content;
+                    var task = response.task;
+
+                    $.each(content.employees, function(index,value){
+                        var employee = "<option value="+value.id+">"+value.name+' '+value.lastName+"</option>";
+                        $("#employees").append(employee);
+                    })
+                    $.each(content.tools, function(index,value){
+                        var tool = "<option value="+value.id+">"+value.toolName+"</option>";
+                        $("#tools").append(tool);
+                    })
+                    $.each(content.tool_states, function(index,value){
+                        var tool_state = "<option value="+value.id+">"+value.state+"</option>";
+                        $("#tools_state").append(tool_state);
+                    })
+                    $.each(content.states, function(index,value){
+                        var task_state = "<option value="+value.id+">"+value.state+"</option>";
+                        $("#task_state").append(task_state);
+                    })
+
+                    $("#description").text(task.description);
+                    $("#task_id").val(task.id);
+                    $("#employees").val(task.employee_id);
+                    $("#tools").val(task.tools_id);
+                    if(task.tools_id != 0){
+                         $('#tools_state').prop('disabled', false);
+                    }else{
+                        $('#tools_state').prop('disabled', 'disabled');
+                    }  
+                    $("#tools_state").val(task.tool_states_id);
+                     
+                   
+                    $("#task_state").val(task.task_states_id);
+                    
+                    $("#task").removeClass('hidden');
+                    
+                },
+                error:function(error){
+                    console.log(error)
+                }
+            });
         })
+
+        $("body").on("click", ".close-function", function(){
+            $('#employees option:gt(0)').remove();
+            $('#tools option:gt(0)').remove();
+            $('#tools_state option:gt(0)').remove();
+           $('#task_state option').remove();
+
+        })
+        $("select").change( function(){ // any select that changes.
+            $("#task-state-loading").removeClass('hidden');
+            var employee_id = parseInt($("#employees").val());
+            var tools_id = parseInt($("#tools").val());
+            var tool_states_id = parseInt($("#tools_state").val());
+            var task_states_id = parseInt($("#task_state").val());
+            var task_id = parseInt($("#task_id").val());
+
+            
+            var json = {
+                'id': task_id,
+                'employee_id': employee_id,
+                'tools_id': tools_id,
+                'tool_states_id': tool_states_id,
+                'task_states_id': task_states_id
+            }
+            $.ajax({ 
+                type:'PUT', 
+                data: json,
+                url: "https://localhost:5001/api/tasks/update/"+task_id,
+                success:function(response){
+                    $("#task-state-loading").addClass('hidden');
+                    console.log(response);
+                    
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
+            console.log(json)
+           
+        })
+        $("#tools").change(function(){
+            var tools_id = parseInt($("#tools").val());
+            if(tools_id != 0){
+                $('#tools_state').prop('disabled', false);
+                $("#tools_state").val(1);
+            }else{
+                $("#tools_state").val(0);
+                $('#tools_state').prop('disabled', 'disabled');
+            }  
+        })
+
+        $("#employees").change(function(){
+            var employee_id = parseInt($("#employees").val());
+            if(employee_id != 0){
+                $("#task_state").val(2);
+            }else{
+                $("#task_state").val(1);
+               
+            }  
+        })
+        
+
      </script>
 }
