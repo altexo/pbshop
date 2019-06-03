@@ -9,19 +9,20 @@
 <p>
     <a class="btn btn-primary " asp-action="Create">Registrar nuevo empleado</a>
 </p>
+<div class="card">
 <table class="table">
-    <thead>
+    <thead class="bg-primary">
         <tr>
-            <th>
+            <th class="text-white">
                 @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th>
+            </th >
+            <th class="text-white">
                 Nombre
             </th>
-            <th>
+            <th class="text-white">
                 Apellido
             </th>
-            <th>
+            <th class="text-white">
                 Teléfono
             </th>
             <th></th>
@@ -43,11 +44,13 @@
                 @Html.DisplayFor(modelItem => item.phone)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new {  id=item.id }) |
-                @Html.ActionLink("Detalles", "Details", new { id=item.id }) |
-                @Html.ActionLink("Borrar", "Delete", new {id=item.id })
+             
+                  @Html.ActionLink("Editar", "Edit", new {  id=item.id  }, new {@class = "btn btn-primary btn-sm"}) 
+
+                @Html.ActionLink("Borrar", "Delete", new {id=item.id }, new {@class = "btn btn-danger btn-sm"})
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>

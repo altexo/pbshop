@@ -12,7 +12,12 @@ namespace pbshop_web.Models
         public VehicleModel vehicle {set;get;}
 
     }
+    public class UpdateWorkshopRecordModel{
+         public int id {set;get;}
 
+         public int workshop_record_sate_id {set;get;}
+         public string fcm {set;get;}
+    }
     // public class WorkShopRecordAndTasksModel
     // {
     //     public int id {set;get;}

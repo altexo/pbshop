@@ -15,7 +15,7 @@ namespace pbshop_web.Respositories
         internal List<WorkshopRecordModel> LeerTodos()
         {
             var lista = new List<WorkshopRecordModel>();
-            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year, v.serial, DATE(v.created_at) as created_at FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id");
+            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.id as workshop_state_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year, v.serial, DATE(v.created_at) as created_at FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id");
            //var cmd = new MySqlCommand("SELECT workshop_records.id as we_id, workshop_record_states.id as ws_id, workshop_record_states.state, workshop_records.workshop_record_sate_id, workshop_records.clients_id FROM workshop_records INNER JOIN workshop_record_states on workshop_records.workshop_record_states_id = workshop_record_states.id");
             using (var conn = new MySqlConnection(GetConnectionString()))
             {
@@ -40,6 +40,58 @@ namespace pbshop_web.Respositories
             return lista;
         }
 
+        internal UpdateWorkshopRecordModel ChangeState(UpdateWorkshopRecordModel workshop)
+        {
+            // var w = new WorkshopRecordModel();
+            var cmd = new MySqlCommand("UPDATE workshop_records SET workshop_record_state_id = @workshop_record_state_id WHERE id = @id");
+            cmd.Parameters.AddWithValue("@workshop_record_state_id", workshop.workshop_record_sate_id);
+            cmd.Parameters.AddWithValue("@id", workshop.id);
+             using (var conn = new MySqlConnection(GetConnectionString()))
+            {
+                try
+                {
+                    cmd.Connection = conn;
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    return GetFCM(workshop);
+
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw ex;
+                }
+                
+            }
+
+        }
+        private UpdateWorkshopRecordModel GetFCM(UpdateWorkshopRecordModel workshop){
+            var cmd = new MySqlCommand("SELECT fcm_token FROM admins WHERE job_titles_id = 3");
+            using (var conn = new MySqlConnection(GetConnectionString()))
+            {
+                try
+                {
+                    cmd.Connection = conn;
+                    cmd.Connection.Open();
+                    using(var reader = cmd.ExecuteReader()){
+                        if (reader.Read())
+                        {
+                            workshop.fcm = (string)reader["fcm_token"];
+                            return workshop;
+                        }
+                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw ex;
+                }
+            }
+            return null;
+
+        }
+
         // internal WorkShopRecordAndTasksModel DetailedWorkshop(int id)
         // {
         //     var workshopWithTasks = new WorkShopRecordAndTasksModel();
@@ -47,7 +99,7 @@ namespace pbshop_web.Respositories
         //     var tasks = new List<TaskModel>();
         //     var cmdWorkShop = new MySqlCommand("SELECT wr.id, wr.client_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE wr.id = @id");
         //     cmdWorkShop.Parameters.AddWithValue("@id", id);
-           
+
         //     using (var conn = new MySqlConnection(GetConnectionString()))
         //     {
         //         try
@@ -59,24 +111,24 @@ namespace pbshop_web.Respositories
         //                 {
         //                     workshop = ParseWorkShopRecords(reader);
         //                 }
-                        
+
         //             }
         //         }
         //         catch (Exception ex)
         //         {
-                    
+
         //             throw ex;
         //         }
         //     }
         //     return null;
         // }
 
-      
+
 
         internal List<WorkshopRecordModel> GetWorkshopsByState(int id)
         {
             var lista = new List<WorkshopRecordModel>();
-            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year, v.serial FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE ws.id = @id");
+            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.id as workshop_state_id,ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.model, v.year, v.serial, DATE(v.created_at) as created_at FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE ws.id = @id");
             cmd.Parameters.AddWithValue("@id", id);
             using (var conn = new MySqlConnection(GetConnectionString()))
             {
@@ -187,7 +239,7 @@ namespace pbshop_web.Respositories
         internal WorkshopRecordModel LeerPorId(int id)
         {
             var lista = new WorkshopRecordModel();
-            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.serial,v.model, v.year, v.created_at FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE wr.id = @id");
+            var cmd = new MySqlCommand("SELECT wr.id, wr.client_id, ws.id as workshop_state_id, ws.state, c.email, c.name, c.lastName, c.phone, v.brand, v.serial,v.model, v.year, v.created_at FROM workshop_records wr INNER JOIN workshop_record_states ws on wr.workshop_record_state_id = ws.id INNER JOIN clients c on wr.client_id = c.id INNER JOIN vehicles v on v.id = wr.vehicle_id WHERE wr.id = @id");
             cmd.Parameters.AddWithValue("@id", id);
            
             using (var conn = new MySqlConnection(GetConnectionString()))
@@ -231,6 +283,7 @@ namespace pbshop_web.Respositories
                 c.phone = (string)reader["phone"];
 
                 state.state = (string)reader["state"];
+                state.id = (int)reader["workshop_state_id"];
 
                 v.model = (string)reader["model"];
                 v.brand = (string)reader["brand"];

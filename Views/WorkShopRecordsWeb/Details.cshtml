@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Details";
     int workshop_id = @Model.id;
+    int state = @Model.workshop_record_sate.id;
 }
 
 <h2 class="pbshop-secundary-text-color">  
@@ -15,9 +16,27 @@
 </h2>
 
     <div>
-        <h4 class="text-secondary">Estado General: @Html.DisplayFor(model => model.workshop_record_sate.state) </h4>
+        <div class="col-md-12 row">
+          
+        <div class="row">
+        <h4 class="text-secondary">Estado General:   </h4> 
+        <div  class="text-primary float-left">
+                <div id="ws-state-loading" class="spinner-grow hidden" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+          
+        </div>
+            <select id="workshopState" class="custom-select">
+                <option value="1">En espera</option>                          
+                <option value="2">En proceso</option>                          
+                <option value="3">Terminado</option>                          
+                <option value="4">Entregado</option>                            
+            </select>
+                                   
         <hr />
-        <div class="col-md-12 row card-columns">
+        <div class="col-md-12 row card-columns m-0">
            <div class="col-md-6 card">
                 <div class="card-body">
                     <label class="font-weight-bold pbshop-secundary-text-color">Fecha de entrada: </label> @Html.DisplayFor(model => model.vehicle.created_at)<br>
@@ -136,6 +155,9 @@
      <script type="text/javascript">
      //Se ejecuta al cargar al documento obteniendo las actividades a realizar 
         $(document).ready(function(){
+            var workshop_state = @state;
+            console.log(workshop_state);
+            $("#workshopState").val(workshop_state);
             var workshop_id = @workshop_id;
             $("#loading-activities").addClass("hidden");
             $("#activities").removeClass("hidden");
@@ -219,7 +241,29 @@
             $('#tools_state option:gt(0)').remove();
            $('#task_state option').remove();
 
-        })
+        });
+        $("#workshopState").change(function(){
+            $("#ws-state-loading").removeClass("hidden");
+            var state = parseInt($(this).val());
+            var workshop_id = parseInt(@workshop_id);
+            var data = {'workshop_record_sate_id': state, 'id':workshop_id};
+            console.log(data);
+            $.ajax({
+                type: "PUT",
+                data: data,
+                url: "https://localhost:5001/api/workshops/"+workshop_id,
+                success:function(response){
+                    console.log(response)
+                    $("#ws-state-loading").addClass("hidden");
+                    $("#task-state-loading").addClass("hidden");
+                },
+                error:function(error){
+                    console.log(error)
+                    $("#ws-state-loading").addClass("hidden");
+                }
+            });
+        });
+
         $("select").change( function(){ // any select that changes.
             $("#task-state-loading").removeClass('hidden');
             var employee_id = parseInt($("#employees").val());

@@ -24,6 +24,15 @@ namespace pbshop_web
             get;  
             private set;  
         }  
+          public static string ApiFireBaseKey {  
+            get;  
+            private set;  
+        } 
+          public static string SenderId {  
+            get;  
+            private set;  
+        }  
+
         public Startup(IHostingEnvironment env) {  
             Configuration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("appsettings.json").Build();  
         }
@@ -47,9 +56,14 @@ namespace pbshop_web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.AddDistributedMemoryCache(); 
+            services.AddSession(options => {  
+            options.IdleTimeout = TimeSpan.FromMinutes(600);//You can set Time   
+            });  
             
-            // services.AddTransient<DBConnection>(_ => new DBConnection(Configuration["ConnectionStrings:DefaultConnection"]));
            //ConnectionString = Configuration["ConnectionStrings:DefaultConnectionProduction"];
+            ApiFireBaseKey = Configuration["FireBase:ServerKey"];
+            SenderId = Configuration["FireBase:SenderID"];
             ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
          
@@ -68,7 +82,7 @@ namespace pbshop_web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseSession();   
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -78,7 +92,15 @@ namespace pbshop_web
                 
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}")
+                    .MapRoute(
+                        name: "logout",
+                        template: "{controller=Auth}/{action=Logout}"
+                    )
+                    .MapRoute(
+                        name: "logged",
+                        template: "{controller=WorkShopRecord}/{action=Index}"
+                    );
            
             });
             

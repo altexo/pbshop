@@ -9,19 +9,20 @@
 <p>
     <!-- <a asp-action="Create">Create New</a> -->
 </p>
+<div class="card">
 <table class="table">
-    <thead>
+    <thead class="bg-primary">
         <tr>
-            <th>
+            <th class="text-white">
                 @Html.DisplayNameFor(model => model.id)
             </th>
-            <th>
+            <th class="text-white"> 
                Cliente
-            </th>
-            <th>
+            </th class="text-white">
+            <th class="text-white">
                 Vehículo
-            </th>
-            <th>Estado</th>
+            </th >
+            <th class="text-white">Estado</th>
             <th></th>
         </tr>
     </thead>
@@ -44,8 +45,8 @@
             </td>
             <td>
                 
-                @Html.ActionLink("Detalles", "Details", new {  id=item.id  }, new {@class = "btn btn-primary sm"}) 
-               
+                @Html.ActionLink("Detalles", "Details", new {  id=item.id  }, new {@class = "btn btn-primary btn-sm"}) 
+               <a  class="btn btn-warning btn-sm"><input type="hidden" value='@Html.DisplayFor(modelItem => item.id)'><i class="fas fa-file-alt"></i></a>
               
             </td>
 
@@ -53,3 +54,14 @@
 }
     </tbody>
 </table>
+</div>
+@section Scripts{
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.38/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.38/vfs_fonts.js"></script>
+<script>
+    $("body").on('click','.btn-warning',function(){
+        var id = $(this).find('input').val();
+        console.log(id)
+    });
+</script>
+}

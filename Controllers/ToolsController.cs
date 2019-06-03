@@ -19,6 +19,10 @@ namespace pbshop_web.Controllers
         // GET: Tools
         public ActionResult Index()
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = tools.LeerTodos();
             return View(model);
         }
@@ -26,12 +30,20 @@ namespace pbshop_web.Controllers
         // GET: Tools/Details/5
         public ActionResult Details(int id)
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         // GET: Tools/Create
         public ActionResult Create()
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = new ToolModel();
             return View(model);
         }
@@ -56,6 +68,10 @@ namespace pbshop_web.Controllers
         // GET: Tools/Edit/5
         public ActionResult Edit(int id)
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = tools.LeerPorId(id);
             if (model == null)
             {
@@ -91,6 +107,10 @@ namespace pbshop_web.Controllers
         // GET: Tools/Delete/5
         public ActionResult Delete(int id)
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = tools.LeerPorId(id);
             if (model == null)
             {

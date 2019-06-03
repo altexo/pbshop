@@ -20,6 +20,10 @@ namespace pbshop_web.Controllers
         // GET: Employees
         public ActionResult Index()
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = employees.LeerTodos();
             return View(model);
         }
@@ -27,6 +31,10 @@ namespace pbshop_web.Controllers
         // GET: Employees/Details/5
         public ActionResult Details(int id)
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = employees.LeerPorId(id);
             return View(model);
         }
@@ -34,6 +42,10 @@ namespace pbshop_web.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = new CreateEmployeeModel();
             return View(model);
         }
@@ -61,6 +73,10 @@ namespace pbshop_web.Controllers
         // GET: Employees/Edit/5
         public ActionResult Edit(int id)
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = employees.LeerPorId(id);
             if (model == null)
             {
@@ -98,6 +114,10 @@ namespace pbshop_web.Controllers
         // GET: Employees/Delete/5
         public ActionResult Delete(int id)
         {
+             if (HttpContext.Session.GetInt32("_Id") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var model = employees.LeerPorId(id);
             if (model == null)
             {

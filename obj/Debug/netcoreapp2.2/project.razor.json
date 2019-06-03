@@ -2862,6 +2862,11 @@
       "FilePath": "Areas/Identity/Pages/_ValidationScriptsPartial.cshtml",
       "TargetPath": "Areas/Identity/Pages/_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views/Auth/Index.cshtml",
+      "TargetPath": "Views/Auth/Index.cshtml",
+      "FileKind": "mvc"
     }
   ]
 }
