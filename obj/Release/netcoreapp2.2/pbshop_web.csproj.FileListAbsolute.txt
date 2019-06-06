@@ -40,3 +40,9 @@
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Release/netcoreapp2.2/pbshop_web.pdb
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Release/netcoreapp2.2/pbshop_web.csproj.CopyComplete
 /Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/bin/Release/netcoreapp2.2/appsettings.json
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Release/netcoreapp2.2/Razor/Areas/Identity/Pages/_ValidationScriptsPartial.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Release/netcoreapp2.2/Razor/Areas/Identity/Pages/_ViewStart.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Release/netcoreapp2.2/Razor/Views/Auth/Index.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Release/netcoreapp2.2/Razor/Views/Shared/_LoginPartial.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Release/netcoreapp2.2/Razor/Views/WorkShopRecordsWeb/Details.g.cshtml.cs
+/Users/altexo94/Documents/dev/ing-web/pbshop/pbshop_web/obj/Release/netcoreapp2.2/Razor/Views/WorkShopRecordsWeb/Index.g.cshtml.cs

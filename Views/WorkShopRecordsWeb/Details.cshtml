@@ -164,7 +164,7 @@
             
             $.ajax({ 
                 type:'GET', 
-                url: "https://localhost:5001/api/tasks/workshop/"+workshop_id,
+                url: "http://pbshop.online/api/tasks/workshop/"+workshop_id,
                 success:function(response){
                     console.log(response);
                     $.each(response, function(index, value){
@@ -188,7 +188,7 @@
             console.log(task_id);
             $.ajax({
                 type:'GET',
-                url: "https://localhost:5001/api/tasks/"+task_id,
+                url: "http://pbshop.online/api/tasks/"+task_id,
                 success:function(response){
                     console.log(response)
                     $("#loading-task").addClass('hidden');
@@ -251,7 +251,7 @@
             $.ajax({
                 type: "PUT",
                 data: data,
-                url: "https://localhost:5001/api/workshops/"+workshop_id,
+                url: "http://pbshop.online/api/workshops/"+workshop_id,
                 success:function(response){
                     console.log(response)
                     $("#ws-state-loading").addClass("hidden");
@@ -283,7 +283,7 @@
             $.ajax({ 
                 type:'PUT', 
                 data: json,
-                url: "https://localhost:5001/api/tasks/update/"+task_id,
+                url: "http://pbshop.online/api/tasks/update/"+task_id,
                 success:function(response){
                     $("#task-state-loading").addClass('hidden');
                     console.log(response);

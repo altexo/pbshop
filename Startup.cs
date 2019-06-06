@@ -61,10 +61,10 @@ namespace pbshop_web
             options.IdleTimeout = TimeSpan.FromMinutes(600);//You can set Time   
             });  
             
-           //ConnectionString = Configuration["ConnectionStrings:DefaultConnectionProduction"];
+          // ConnectionString = Configuration["ConnectionStrings:DefaultConnectionProduction"];
             ApiFireBaseKey = Configuration["FireBase:ServerKey"];
             SenderId = Configuration["FireBase:SenderID"];
-            ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
+           ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
          
         }
@@ -82,10 +82,10 @@ namespace pbshop_web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseSession();   
-            app.UseHttpsRedirection();
+            // app.UseSession();   
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            // app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
